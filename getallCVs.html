@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Report</title>
+    <link rel="stylesheet" href="getallCVs.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $("#fromDate, #toDate").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+</head>
+<body>
+    <form id="reportForm">
+        <label for="fromDate">От:</label>
+        <input type="text" id="fromDate" name="fromDate">
+        <label for="toDate">До:</label>
+        <input type="text" id="toDate" name="toDate">
+        <input type="button" id="submitBtn" value="Справка всички данни">
+        <input type="button" id="groupSubmitBtn" value="Справка групирани">
+    </form>
+
+    <div id="resultContainer"></div>
+
+    <script>
+        $(document).ready(function() {
+            $("#submitBtn").click(function() {
+                var fromDate = $("#fromDate").val();
+                var toDate = $("#toDate").val();
+                $.ajax({
+                    url: "allinfo.php",
+                    method: "POST",
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate
+                    },
+                    success: function(response) {
+                        $("#resultContainer").html(response);
+                    }
+                });
+            });
+
+            $("#groupSubmitBtn").click(function() {
+                var fromDate = $("#fromDate").val();
+                var toDate = $("#toDate").val();
+                $.ajax({
+                    url: "group.php",
+                    method: "POST",
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate
+                    },
+                    success: function(response) {
+                        $("#resultContainer").html(response);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
